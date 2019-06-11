@@ -22,13 +22,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Watch, Component } from "vue-property-decorator";
-interface Item {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
+import Item from "@/models/Item";
 enum State {
   NOCOIN,
   SELECTABLE,
@@ -40,11 +34,11 @@ export default class VendingMachineView extends Vue {
   private state: State = State.NOCOIN;
   private selected!: Item;
   private list: Item[] = [
-    { id: "id-001", name: "음료수1", price: 500, quantity: 1 },
-    { id: "id-002", name: "음료수2", price: 700, quantity: 1 },
-    { id: "id-003", name: "음료수3", price: 1200, quantity: 1 },
-    { id: "id-004", name: "음료수4", price: 1500, quantity: 1 },
-    { id: "id-005", name: "음료수5", price: 500, quantity: 1 }
+    new Item("음료수1", "id-001", 500, 1),
+    new Item("음료수2", "id-002", 700, 1),
+    new Item("음료수3", "id-003", 1200, 1),
+    new Item("음료수4", "id-004", 1500, 1),
+    new Item("음료수5", "id-005", 500, 1)
   ];
 
   @Watch("list", { deep: true })
