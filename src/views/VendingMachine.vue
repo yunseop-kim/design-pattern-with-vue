@@ -2,15 +2,18 @@
   <div class="vending-machine">
     <h2>자판기</h2>
     <div class="coin">
-      <span>상태: {{state}} / 투입금액: {{coin}}</span>
+      <span>상태: {{currentState}} / 투입금액: {{coin}}</span>
       <button @click="insertCoin(100)">100원</button>
       <button @click="insertCoin(500)">500원</button>
     </div>
     <div class="list">
       <ul>
-        <li v-for="(item, index) in selectableList" :key="index">
-          {{item.name}} / {{item.price}}
-          <button @click="select(item)">선택</button>
+        <li v-for="(item, index) in list" :key="index">
+          {{item.name}} / {{item.price}} / {{item.quantity}}
+          <button
+            @click="select(item)"
+            :disabled="!isSelectable(item)"
+          >선택</button>
         </li>
       </ul>
     </div>
@@ -44,6 +47,15 @@ export default class VendingMachineView extends Vue {
     { id: "id-005", name: "음료수5", price: 500, quantity: 1 }
   ];
 
+  @Watch("list", { deep: true })
+  onListChanged(val: Item[], oldVal: Item[]) {
+    const soldout: boolean = val.every((item: Item) => item.quantity === 0);
+    if (soldout) {
+      this.state = State.SOLDOUT;
+      this.returnCoin();
+    }
+  }
+
   private select(item: Item) {
     switch (this.state) {
       case State.NOCOIN:
@@ -58,9 +70,16 @@ export default class VendingMachineView extends Vue {
         }
         break;
 
+      case State.SOLDOUT:
+        this.returnCoin();
+        break;
+
       default:
         break;
     }
+  }
+  private isSelectable(item: Item) {
+    return item.quantity > 0 && item.price <= this.coin;
   }
 
   public insertCoin(coin: number): void {
@@ -71,6 +90,11 @@ export default class VendingMachineView extends Vue {
 
       case State.SELECTABLE:
         this.increaseCoin(coin);
+        break;
+
+      case State.SOLDOUT:
+        window.alert("모든 물건이 팔렸습니다!");
+        this.returnCoin();
         break;
 
       default:
@@ -99,10 +123,21 @@ export default class VendingMachineView extends Vue {
     }
   }
 
+  private returnCoin() {
+    if (this.coin > 0) {
+      window.alert(`동전 ${this.coin}을 반환합니다!`);
+      this.coin = 0;
+    }
+  }
+
   get selectableList(): Item[] {
     return this.list
       .filter((item: Item) => item.price <= this.coin)
       .filter((item: Item) => item.quantity > 0);
+  }
+
+  get currentState(): any {
+    return State[this.state];
   }
 }
 </script>
