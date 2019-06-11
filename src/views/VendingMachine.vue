@@ -21,13 +21,23 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import Item from "@/models/Item";
 import VendingMachine from "@/models/VendingMachine";
+import SoldoutState from "../state/SoldoutState";
 
 @Component
 export default class VendingMachineView extends Vue {
   private vm: VendingMachine = new VendingMachine();
+
+  @Watch("vm.list", { deep: true })
+  onListChanged(val: Item[], oldVal: Item[]) {
+    const soldout: boolean = val.every((item: Item) => item.quantity === 0);
+    if (soldout) {
+      this.vm.changeState(new SoldoutState());
+      this.vm.returnCoin();
+    }
+  }
 
   private select(item: Item) {
     this.vm.select(item);

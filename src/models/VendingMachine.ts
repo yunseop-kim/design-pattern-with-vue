@@ -53,4 +53,9 @@ export default class VendingMachine {
   public isSelectable(item: Item): boolean {
     return item.quantity > 0 && item.price <= this.coin;
   }
+
+  public returnCoin() {
+    window.alert("제품이 매진입니다. 돈을 반환합니다.");
+    this.coin = 0;
+  }
 }
