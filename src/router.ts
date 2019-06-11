@@ -21,6 +21,11 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Cart.vue")
+    },
+    {
+      path: "/vending-machine",
+      name: "vending-machine",
+      component: () => import("./views/VendingMachine.vue")
     }
   ]
 });
