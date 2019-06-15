@@ -26,6 +26,11 @@ export default new Router({
       path: "/vending-machine",
       name: "vending-machine",
       component: () => import("./views/VendingMachine.vue")
+    },
+    {
+      path: "/post-office",
+      name: "post-office",
+      component: () => import("./views/PostOffice.vue")
     }
   ]
 });
