@@ -31,6 +31,11 @@ export default new Router({
       path: "/post-office",
       name: "post-office",
       component: () => import("./views/PostOffice.vue")
+    },
+    {
+      path: "/coffee",
+      name: "coffee",
+      component: () => import("./views/Coffee.vue")
     }
   ]
 });
