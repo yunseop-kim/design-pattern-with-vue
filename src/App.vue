@@ -7,7 +7,8 @@
       상태 패턴:
       <router-link to="/vending-machine">자판기</router-link>|
       <router-link to="/post-office">우체국</router-link>|
-      <router-link to="/coffee">커피집</router-link>
+      <router-link to="/coffee">커피집</router-link>|
+      <router-link to="/image">이미지</router-link>
     </div>
     <router-view/>
   </div>

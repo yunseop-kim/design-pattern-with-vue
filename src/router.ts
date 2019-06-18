@@ -36,6 +36,11 @@ export default new Router({
       path: "/coffee",
       name: "coffee",
       component: () => import("./views/Coffee.vue")
+    },
+    {
+      path: "/image",
+      name: "image",
+      component: () => import("./views/Image.vue")
     }
   ]
 });
